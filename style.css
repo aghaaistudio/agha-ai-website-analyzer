@@ -1,0 +1,605 @@
+/* ==========================================================================
+   AGHA AI STUDIO - ENTERPRISE INTERFACE ENGINE
+   ========================================================================== */
+
+:root {
+    --bg-base: #f4f6fa;
+    --bg-card: #ffffff;
+    --text-primary: #2d3748;
+    --text-secondary: #718096;
+    --accent-blue: #58111A;     /* Primary Core Dark Crimson Accent */
+    --accent-purple: #a855f7;   /* Requested Brand Accent Color */
+    --border-color: rgba(0, 0, 0, 0.06);
+    
+    /* Semantic Status Colors */
+    --color-excellent: #10b981;
+    --color-medium: #f59e0b;
+    --color-critical: #ef4444;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* --- Authentication Gateway Overlay --- */
+.login-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at center, rgba(244,246,250,0.98) 0%, rgba(226,232,240,0.99) 100%);
+    backdrop-filter: blur(20px);
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 40px;
+    text-align: center;
+    border-radius: 24px;
+}
+
+/* --- Global Branding Header --- */
+.global-header {
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+}
+
+.brand-logo {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    color: #1a202c;
+}
+
+.brand-logo span {
+    color: var(--accent-purple); /* Custom Brand Identification Alignment */
+}
+
+.brand-tagline {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2px;
+}
+
+.header-profile-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f8fafc;
+    padding: 6px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    background: var(--accent-purple);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.badge-and-logout {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.user-badge-text {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.inline-logout-btn {
+    background: none;
+    border: none;
+    color: var(--color-critical);
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0;
+    margin-top: 1px;
+}
+
+/* --- Architecture Decoupled Workspace --- */
+.dashboard-container {
+    display: flex;
+    flex: 1;
+    position: relative;
+}
+
+/* --- Responsive Premium Sidebar --- */
+.sidebar {
+    width: 80px;
+    background: var(--bg-card);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px 0;
+    gap: 20px;
+}
+
+.side-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    color: var(--text-secondary);
+}
+
+.side-btn:hover {
+    background: #f1f5f9;
+    color: var(--text-primary);
+}
+
+.side-btn.active {
+    background: rgba(168, 85, 247, 0.1);
+    color: var(--accent-purple);
+}
+
+.side-tooltip {
+    position: absolute;
+    left: 90px;
+    background: #1e293b;
+    color: white;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 8px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.side-btn:hover .side-tooltip {
+    opacity: 1;
+    left: 75px;
+}
+
+/* --- Workspace Panels Logic --- */
+.workspace {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.view-panel {
+    display: none;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.view-panel.active-panel {
+    display: flex;
+}
+
+/* --- UI Controls Toolkit: Cards & Inputs --- */
+.card-3d {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.015);
+    position: relative;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.card-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: #1a202c;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    background: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 0 18px;
+    gap: 12px;
+    flex: 1;
+}
+
+.input-wrapper span {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.input-3d {
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 16px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    outline: none;
+}
+
+.btn-3d {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 16px 28px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+.btn-3d:hover {
+    background: #f8fafc;
+    transform: translateY(-1px);
+}
+
+.btn-blue {
+    background: var(--accent-purple); /* Custom Harmonization Layout */
+    color: white;
+    border: none;
+}
+
+.btn-blue:hover {
+    background: #9333ea;
+    box-shadow: 0 8px 20px rgba(168, 85, 247, 0.3);
+}
+
+/* --- Engine Live Loader State --- */
+.loader-panel {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 40px;
+}
+
+.spinner {
+    width: 28px;
+    height: 28px;
+    border: 4px solid rgba(168, 85, 247, 0.1);
+    border-top-color: var(--accent-purple);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* --- Premium Performance Diagnostic Layout Grid --- */
+.premium-dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 25px;
+}
+
+/* Custom CSS Core Web Vitals Pillar Bar Chart */
+.chart-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: 160px;
+    padding-top: 20px;
+    border-bottom: 2px solid #edf2f7;
+}
+
+.bar-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60px;
+    position: relative;
+}
+
+.bar-pillar {
+    width: 100%;
+    background: linear-gradient(180deg, var(--accent-purple) 0%, rgba(168, 85, 247, 0.6) 100%);
+    border-radius: 8px 8px 0 0;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bar-pillar:hover {
+    transform: scaleX(1.05);
+    filter: brightness(1.1);
+}
+
+.bar-tooltip {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1e293b;
+    color: white;
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+.bar-label {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--text-secondary);
+    margin-top: 10px;
+}
+
+/* Device Selector Switches */
+.device-btn {
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+}
+
+.device-btn.active {
+    background: white;
+    border-color: var(--border-color);
+    color: var(--text-primary);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+}
+
+/* Spec Matrix Dense Engine CSS Grid Layout */
+.spec-grid-dense {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 15px;
+}
+
+.spec-node {
+    background: #f8fafc;
+    border: 1px solid var(--border-color);
+    padding: 14px 18px;
+    border-radius: 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #444;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.spec-val-badge {
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+/* Lower Multi Ring Diagnostic Flow Controls */
+.lower-grid-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+}
+
+.triple-rings {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.circle-progress-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle-svg {
+    width: 100px;
+    height: 100px;
+    transform: rotate(-90deg);
+}
+
+circle {
+    width: 100px;
+    height: 100px;
+    fill: none;
+    stroke-width: 8;
+}
+
+.circle-bg {
+    stroke: #f1f5f9;
+}
+
+.circle-fill {
+    stroke-dasharray: 251.2;
+    stroke-dashoffset: 251.2;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.score-val {
+    position: absolute;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+/* Actionable Audit System Stream Styling */
+.audit-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.audit-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 22px;
+    background: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    transition: all 0.2s ease;
+}
+
+.audit-item:hover {
+    background: #f1f5f9;
+}
+
+.audit-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.audit-status {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.status-excellent { background-color: var(--color-excellent); box-shadow: 0 0 10px rgba(16,185,129,0.4); }
+.status-warning { background-color: var(--color-medium); box-shadow: 0 0 10px rgba(245,158,11,0.4); }
+.status-critical { background-color: var(--color-critical); box-shadow: 0 0 10px rgba(239,68,68,0.4); }
+
+.audit-info {
+    font-size: 13px;
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+
+/* --- Persistent AI Co-pilot Shell --- */
+.ai-copilot-card {
+    margin-top: auto;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    box-shadow: 0 10px 35px rgba(168, 85, 247, 0.03);
+}
+
+.chat-output {
+    height: 110px;
+    overflow-y: auto;
+    background: #f8fafc;
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.message {
+    font-size: 13px;
+    line-height: 1.5;
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.message.assistant {
+    background: white;
+    color: #334155;
+    align-self: flex-start;
+    border: 1px solid var(--border-color);
+}
+
+.message.user {
+    background: var(--accent-purple);
+    color: white;
+    align-self: flex-end;
+}
+
+.chat-input-area {
+    display: flex;
+    gap: 15px;
+}
+
+/* --- Corporate Enterprise Footer Architecture Element --- */
+.enterprise-footer {
+    text-align: center;
+    padding: 25px 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-card);
+    margin-top: auto;
+    line-height: 1.8;
+}
+
+/* --- Responsive CSS Adjustments for Mobile Viewports --- */
+@media (max-width: 992px) {
+    .premium-dashboard-grid, .lower-grid-row {
+        grid-template-columns: 1fr;
+    }
+    .global-header {
+        padding: 15px 20px;
+    }
+    .workspace {
+        padding: 20px;
+    }
+}
