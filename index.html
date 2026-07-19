@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agha AI Website Analyzer - Professional AI Website Audit Platform</title>
+    
+    <!-- html2pdf for Premium PDF Report Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <!-- Link to external CSS stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Enterprise Portal Authentication Module -->
+    <div class="login-overlay" id="loginGate">
+        <div class="card-3d login-card">
+            <h2 style="font-weight: 800; color: #333; margin-bottom: 10px;">Agha AI <span style="color: var(--accent-blue);">Studio</span></h2>
+            <p style="font-size: 13px; color: #666; margin-bottom: 30px; font-weight: 600;">Professional AI Website Audit Platform</p>
+            
+            <div class="input-wrapper" style="margin-bottom: 15px;">
+                <span>📧</span>
+                <input type="email" class="input-3d" id="loginEmail" placeholder="Email Address" value="admin@aghastudio.com">
+            </div>
+            <div class="input-wrapper" style="margin-bottom: 15px;">
+                <span>🔒</span>
+                <input type="password" class="input-3d" id="loginPass" placeholder="Enter password (agha)">
+            </div>
+
+            <button class="btn-3d btn-blue" style="width: 100%; margin-top: 15px;" onclick="authenticateUser()">Unlock Dashboard</button>
+        </div>
+    </div>
+
+    <!-- Top Branding Header -->
+    <div class="global-header">
+        <div>
+            <div class="brand-logo">Agha AI <span>Studio</span></div>
+            <div class="brand-tagline" id="taglineBranding">Professional AI Website Audit Platform</div>
+        </div>
+        
+        <!-- User Profile Area Additions -->
+        <div id="userBadge" class="header-profile-box">
+            <div class="user-avatar" id="avatarLetter">A</div>
+            <div class="badge-and-logout">
+                <span class="user-badge-text" id="profileEmailDisplay">admin@aghastudio.com</span>
+                <button class="inline-logout-btn" onclick="logout()">Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Workspace Container -->
+    <div class="dashboard-container" id="reportRoot">
+        
+        <!-- Premium Sidebar Router -->
+        <div class="sidebar">
+            <div class="side-btn active" id="nav-analytics" onclick="navigateTo('panel-analytics')">
+                📊
+                <span class="side-tooltip">Analytics Engine</span>
+            </div>
+            <div class="side-btn" id="nav-security" onclick="navigateTo('panel-security')">
+                🛡️
+                <span class="side-tooltip">Security Diagnostics</span>
+            </div>
+            <div class="side-btn" id="nav-settings" onclick="navigateTo('panel-settings')">
+                ⚙️
+                <span class="side-tooltip">Settings</span>
+            </div>
+            <div style="margin-top: auto;" class="side-btn" onclick="logout()">
+                🚪
+                <span class="side-tooltip">Sign Out</span>
+            </div>
+        </div>
+
+        <!-- Right Side Decoupled Screen Panels -->
+        <div class="workspace">
+            
+            <!-- PANEL 1: PRESET RICH ANALYTICS ENGINE -->
+            <div class="view-panel active-panel" id="panel-analytics">
+                
+                <!-- Quick URL Analyzer Header -->
+                <div class="card-3d">
+                    <div class="card-title">Launch High-Fidelity Website Audit</div>
+                    <div style="display: flex; gap: 15px;">
+                        <div class="input-wrapper" style="flex: 1; margin: 0;">
+                            <span>URL:</span>
+                            <input type="text" class="input-3d" id="targetUrl" value="https://myshopifystore.com">
+                        </div>
+                        <button class="btn-3d btn-blue" onclick="startSystemAnalysis()">Analyze Website</button>
+                        <button class="btn-3d" onclick="downloadPdfReport()">Download Professional PDF Report</button>
+                    </div>
+                </div>
+
+                <!-- Loader Layer -->
+                <div class="card-3d loader-panel" id="loader">
+                    <div class="spinner"></div>
+                    <div style="font-weight: 600; color: #555;" id="loaderLog">Crawling Secure Web Nodes...</div>
+                </div>
+
+                <!-- Live Results Dashboard Section -->
+                <div class="results-panel" id="resultsPanel" style="display: none; flex-direction: column; gap: 25px;">
+                    
+                    <!-- Desktop/Mobile Toggle Switch -->
+                    <div class="device-selector-deck" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 14px; font-weight: 800; color: #333;">Analysis Engine Data</span>
+                        <div style="display: flex; gap: 10px;">
+                            <div class="device-btn active" id="desktopBtn" onclick="switchDevice('desktop')">🖥️ Desktop Analysis</div>
+                            <div class="device-btn" id="mobileBtn" onclick="switchDevice('mobile')">📱 Mobile Friendly Test</div>
+                        </div>
+                    </div>
+
+                    <!-- RICH GRID STRUCTURE -->
+                    <div class="premium-dashboard-grid">
+                        
+                        <!-- Left Panel: Critical Diagnostic Info & Target Stats -->
+                        <div class="card-3d" style="display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div class="card-title">Lighthouse Report Summary</div>
+                                <div style="margin-bottom: 20px;">
+                                    <h1 style="font-size: 32px; font-weight: 800; color: var(--accent-blue);" id="primarySpeedScore">92%</h1>
+                                    <p style="font-size: 12px; font-weight: 700; color: #666; margin-top: 5px;">Overall Performance Index</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: #444;">
+                                    <span>DNS Response</span>
+                                    <span style="color: var(--color-excellent);" id="spec-dns-time">12ms</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: #444;">
+                                    <span>Page Size Analysis</span>
+                                    <span style="color: var(--color-medium);" id="spec-page-size">2.4MB</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Core Web Vitals Load Speeds (Visual Bar Chart) -->
+                        <div class="card-3d">
+                            <div class="card-title">Core Web Vitals Performance Timeline (ms)</div>
+                            <div class="chart-container">
+                                <div class="bar-wrapper">
+                                    <div class="bar-pillar" id="bar-fcp" style="height: 40px;"><span class="bar-tooltip" id="val-fcp">0.8s</span></div>
+                                    <span class="bar-label">FCP</span>
+                                </div>
+                                <div class="bar-wrapper">
+                                    <div class="bar-pillar" id="bar-lcp" style="height: 95px;"><span class="bar-tooltip" id="val-lcp">4.2s</span></div>
+                                    <span class="bar-label">LCP</span>
+                                </div>
+                                <div class="bar-wrapper">
+                                    <div class="bar-pillar" id="bar-cls" style="height: 25px;"><span class="bar-tooltip" id="val-cls">0.1s</span></div>
+                                    <span class="bar-label">CLS</span>
+                                </div>
+                                <div class="bar-wrapper">
+                                    <div class="bar-pillar" id="bar-fid" style="height: 50px;"><span class="bar-tooltip" id="val-fid">15ms</span></div>
+                                    <span class="bar-label">FID</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- ADVANCED AI CRITICAL PERFORMANCE PARAMETERS MATRIX -->
+                    <div class="card-3d">
+                        <div class="card-title">Enterprise Infrastructure Matrix</div>
+                        <div class="spec-grid-dense">
+                            <div class="spec-node">Meta Tags Analyzer <span class="spec-val-badge" style="color:var(--color-excellent); background:var(--bg-color);">Optimized</span></div>
+                            <div class="spec-node">Open Graph Checker <span class="spec-val-badge" style="color:var(--color-excellent); background:var(--bg-color);">Valid OG</span></div>
+                            <div class="spec-node">Twitter Card Checker <span class="spec-val-badge" style="color:var(--color-excellent); background:var(--bg-color);">Configured</span></div>
+                            <div class="spec-node">Robots.txt Checker <span class="spec-val-badge" style="color:var(--color-excellent); background:var(--bg-color);">Found 200 OK</span></div>
+                            <div class="spec-node">Sitemap.xml Checker <span class="spec-val-badge" style="color:var(--color-excellent); background:var(--bg-color);">Indexed</span></div>
+                            <div class="spec-node">Broken Links Detection <span class="spec-val-badge" style="color:var(--color-excellent); background:var(--bg-color);" id="m-broken-links">0 Detected</span></div>
+                            <div class="spec-node">Broken Images Detection <span class="spec-val-badge" style="color:var(--color-excellent); background:var(--bg-color);" id="m-broken-imgs">0 Detected</span></div>
+                            <div class="spec-node">JavaScript Error Detection <span class="spec-val-badge" style="color:var(--color-excellent); background:var(--bg-color);" id="m-js-errors">None</span></div>
+                            <div class="spec-node">CSS Error Detection <span class="spec-val-badge" style="color:var(--color-excellent); background:var(--bg-color);">0 Warnings</span></div>
+                            <div class="spec-node">Accessibility (WCAG) <span class="spec-val-badge" style="color:var(--color-medium); background:var(--bg-color);" id="m-wcag">AA Compliant</span></div>
+                            <div class="spec-node">HTTP Response Analysis <span class="spec-val-badge" style="color:var(--color-excellent); background:var(--bg-color);">Status 200</span></div>
+                            <div class="spec-node">Redirect Chain Checker <span class="spec-val-badge" style="color:var(--color-excellent); background:var(--bg-color);" id="m-redirects">0 Chains</span></div>
+                            <div class="spec-node">Schema.org Structured Data <span class="spec-val-badge" style="color:var(--color-excellent); background:var(--bg-color);">JSON-LD OK</span></div>
+                            <div class="spec-node">Image Optimization Score <span class="spec-val-badge" style="color:var(--color-critical); background:var(--bg-color);" id="m-img-score">62% Optimized</span></div>
+                            <div class="spec-node">Compression (Gzip/Brotli) <span class="spec-val-badge" style="color:var(--color-excellent); background:var(--bg-color);">Brotli Active</span></div>
+                            <div class="spec-node">Caching Analysis <span class="spec-val-badge" style="color:var(--color-medium); background:var(--bg-color);" id="m-cache">TTL 3600s</span></div>
+                            <div class="spec-node">CDN Detection <span class="spec-val-badge" style="color:var(--accent-blue); background:var(--bg-color);">Cloudflare Edge</span></div>
+                            <div class="spec-node">Third-party Scripts Analysis <span class="spec-val-badge" style="color:var(--color-medium); background:var(--bg-color);">4 Scripts Found</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Lower Grid Row: Multi-Rings Progress and List of Improvements -->
+                    <div class="lower-grid-row">
+                        
+                        <!-- Left Panel: Triple Rings Scores Visualizer -->
+                        <div class="card-3d">
+                            <div class="card-title">Resource Loading Waterfall & Strategy Trends</div>
+                            <div class="triple-rings">
+                                
+                                <div class="circle-progress-wrapper">
+                                    <svg class="circle-svg">
+                                        <circle class="circle-bg" cx="50" cy="50" r="40"></circle>
+                                        <circle class="circle-fill" id="fill-seo" cx="50" cy="50" r="40" stroke="var(--color-excellent)"></circle>
+                                    </svg>
+                                    <span class="score-val" id="score-seo">0%</span>
+                                    <span style="position: absolute; bottom: -18px; font-size: 10px; font-weight: 700; color: #555;">SEO</span>
+                                </div>
+
+                                <div class="circle-progress-wrapper">
+                                    <svg class="circle-svg">
+                                        <circle class="circle-bg" cx="50" cy="50" r="40"></circle>
+                                        <circle class="circle-fill" id="fill-performance" cx="50" cy="50" r="40" stroke="var(--color-medium)"></circle>
+                                    </svg>
+                                    <span class="score-val" id="score-performance">0%</span>
+                                    <span style="position: absolute; bottom: -18px; font-size: 10px; font-weight: 700; color: #555;">PERFORMANCE</span>
+                                </div>
+
+                                <div class="circle-progress-wrapper">
+                                    <svg class="circle-svg">
+                                        <circle class="circle-bg" cx="50" cy="50" r="40"></circle>
+                                        <circle class="circle-fill" id="fill-security" cx="50" cy="50" r="40" stroke="var(--color-excellent)"></circle>
+                                    </svg>
+                                    <span class="score-val" id="score-security">0%</span>
+                                    <span style="position: absolute; bottom: -18px; font-size: 10px; font-weight: 700; color: #555;">SECURITY</span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Live Speed Optimizer Actions (Working Auto Fix) -->
+                        <div class="card-3d">
+                            <div class="card-title" style="margin-bottom: 12px;">Active Optimization Engine</div>
+                            <button class="btn-3d btn-blue" id="optimizeMasterBtn" style="width: 100%;" onclick="runMasterOptimizer()">⚡ Run Speed Optimizer</button>
+                        </div>
+
+                    </div>
+
+                    <!-- Comprehensive Actionable Audits with requested Button updates -->
+                    <div class="card-3d">
+                        <div class="card-title">Actionable Audit Diagnostics</div>
+                        <div class="audit-list">
+                            
+                            <div class="audit-item" id="audit-lcp-item">
+                                <div class="audit-meta">
+                                    <div class="audit-status status-critical" id="status-dot-lcp"></div>
+                                    <div class="audit-info">
+                                        <strong id="title-lcp">Largest Contentful Paint (LCP) > 4.2 seconds</strong><br/>
+                                        <span id="desc-lcp" style="font-size: 11px; color: #777;">AI Code Optimization Suggestions: Compress assets to next-gen formats and remove render-blocking elements.</span>
+                                    </div>
+                                </div>
+                                <button class="btn-3d" id="fix-btn-lcp" style="padding: 10px 18px; font-size: 12px; color: var(--accent-blue);" onclick="fixIssue('lcp')">⚡ Auto Fix & Generate Code</button>
+                            </div>
+
+                            <div class="audit-item" id="audit-seo-item">
+                                <div class="audit-meta">
+                                    <div class="audit-status status-warning" id="status-dot-seo"></div>
+                                    <div class="audit-info">
+                                        <strong id="title-seo">Missing Canonical Link Metadata & Structured Markup</strong><br/>
+                                        <span id="desc-seo" style="font-size: 11px; color: #777;">AI SEO Suggestions: Inject missing canonical tag attributes and configure microdata.</span>
+                                    </div>
+                                </div>
+                                <button class="btn-3d" id="fix-btn-seo" style="padding: 10px 18px; font-size: 12px; color: var(--accent-blue);" onclick="fixIssue('seo')">⚡ Auto Fix & Generate Code</button>
+                            </div>
+
+                            <div class="audit-item" id="audit-access-item">
+                                <div class="audit-meta">
+                                    <div class="audit-status status-warning" id="status-dot-access"></div>
+                                    <div class="audit-info">
+                                        <strong id="title-access">AI Accessibility Suggestions: Low Contrast Ratio & Missing ARIA Labels</strong><br/>
+                                        <span id="desc-access" style="font-size: 11px; color: #777;">Problem: Buttons are missing accessible text descriptions for screen readers.</span>
+                                    </div>
+                                </div>
+                                <button class="btn-3d" id="fix-btn-access" style="padding: 10px 18px; font-size: 12px; color: var(--accent-blue);" onclick="fixIssue('access')">⚡ Auto Fix & Generate Code</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- PANEL 2: SECURITY ENGINE -->
+            <div class="view-panel" id="panel-security">
+                <div class="card-3d">
+                    <div class="card-title">SSL Certificate & Security Headers Analysis</div>
+                    <p style="font-size: 14px; color: #555; margin-bottom: 20px;">Protect your site and client transactions with absolute compliance diagnostics.</p>
+                    
+                    <div class="audit-list">
+                        <div class="audit-item">
+                            <div class="audit-meta">
+                                <div class="audit-status status-excellent"></div>
+                                <div class="audit-info">
+                                    <strong>SSL Certificate Checker Node</strong><br/>
+                                    <span style="font-size: 11px; color: #777;">Result: TLS v1.3 Secured & Active (128-bit key exchange). Issuer: Let's Encrypt.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="audit-item">
+                            <div class="audit-meta">
+                                <div class="audit-status status-critical" id="status-dot-hsts"></div>
+                                <div class="audit-info">
+                                    <strong id="title-hsts">Security Headers Analysis: HSTS (HTTP Strict Transport Security) Header</strong><br/>
+                                    <span id="desc-hsts" style="font-size: 11px; color: #777;">AI Security Suggestions: Absent! Vulnerable to MITM vectors. Direct patch via cloud service required.</span>
+                                </div>
+                            </div>
+                            <button class="btn-3d" id="fix-btn-hsts" style="padding: 10px 18px; font-size: 12px; color: var(--accent-blue);" onclick="fixIssue('hsts')">⚡ Auto Fix & Generate Code</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PANEL 3: SETTINGS -->
+            <div class="view-panel" id="panel-settings">
+                <div class="card-3d">
+                    <div class="card-title">Agha AI Studio Configuration</div>
+                    <p style="font-size: 14px; color: #555; margin-bottom: 20px;">Personalize report outputs, update system APIs, and manage target properties.</p>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 15px; max-width: 500px;">
+                        <div>
+                            <label style="font-size: 12px; font-weight: 700; color: #555;">White Label Brand Title</label>
+                            <input type="text" class="input-3d" style="padding: 12px 15px;" id="brandingTitleInput" value="Professional AI Website Audit Platform" oninput="updateBrandingTitle()">
+                        </div>
+                        <div>
+                            <label style="font-size: 12px; font-weight: 700; color: #555;">DNS Analysis Base Node Server</label>
+                            <input type="text" class="input-3d" style="padding: 12px 15px;" value="8.8.8.8 (Google Anycast IP)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GLOBAL FOOTER: AI CO-PILOT (Persisted At the Bottom) -->
+            <div class="card-3d ai-copilot-card">
+                <div class="card-title">🤖 Agha AI Website Analyzer Assistant</div>
+                <div class="chat-output" id="chatOutput">
+                    <div class="message assistant">Greetings! I am the Agha AI Website Analyzer Assistant. Click any menu item, click "Auto Fix & Generate Code" above, or ask me to write optimized code patches instantly.</div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" class="input-3d" style="padding: 12px 15px;" id="chatInput" placeholder="Write code to optimize image sizing...">
+                    <button class="btn-3d btn-blue" onclick="sendMessageToAiAgent()">Execute AI</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Corporate Enterprise Footer Block Addition -->
+    <footer class="enterprise-footer">
+        Powered by <strong>Agha AI Studio</strong> &bull; Version 1.0.0<br/>
+        &copy; 2026 Agha AI Studio &bull; All Rights Reserved
+    </footer>
+
+    <!-- Link to external JavaScript engine -->
+    <script src="script.js"></script>
+</body>
+</html>
